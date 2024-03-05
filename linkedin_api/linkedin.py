@@ -27,6 +27,8 @@ from linkedin_api.utils.helpers import (
     generate_trackingId_as_charString,
 )
 
+DEFAULT_LINKEDIN_COOKIES_DIR = './.linkedin_api/'
+
 logger = logging.getLogger(__name__)
 
 
@@ -36,6 +38,10 @@ def default_evade():
     Currenly, just delays the request by a random (bounded) time
     """
     sleep(random.randint(2, 5))  # sleep a random duration to try and evade suspention
+
+
+def get_proxy_url(ip: str, port: str, username: str | None = None, password: str | None = None):
+    return f'http://{username}:{password}@{ip}:{port}' if username is not None and password is not None else f'http://{ip}:{port}'
 
 
 class Linkedin(object):
@@ -64,9 +70,17 @@ class Linkedin(object):
         refresh_cookies=False,
         debug=False,
         proxies={},
+        proxy_ip=None,
+        proxy_port=None,
+        proxy_username=None,
+        proxy_password=None,
         cookies=None,
-        cookies_dir=None,
+        cookies_dir=DEFAULT_LINKEDIN_COOKIES_DIR,
     ):
+        if (proxies is None or proxies == {}) and proxy_ip is not None and proxy_port is not None:
+            proxies = {'https': get_proxy_url(
+                proxy_ip, proxy_port, proxy_username, proxy_password)}
+
         """Constructor method"""
         self.client = Client(
             refresh_cookies=refresh_cookies,
@@ -241,7 +255,8 @@ class Linkedin(object):
             )
             data = res.json()
 
-            data_clusters = data.get("data", []).get("searchDashClustersByAll", [])
+            data_clusters = data.get("data", []).get(
+                "searchDashClustersByAll", [])
 
             if not data_clusters:
                 return []
@@ -523,7 +538,7 @@ class Linkedin(object):
         if limit is None:
             limit = -1
 
-        query = {"origin":"JOB_SEARCH_PAGE_QUERY_EXPANSION"}
+        query = {"origin": "JOB_SEARCH_PAGE_QUERY_EXPANSION"}
         if keywords:
             query["keywords"] = "KEYWORD_PLACEHOLDER"
         if location_name:
@@ -564,12 +579,12 @@ class Linkedin(object):
         #    spellCorrectionEnabled:true
         #  )"
 
-        query = str(query).replace(" ","") \
-                    .replace("'","") \
-                    .replace("KEYWORD_PLACEHOLDER", keywords or "") \
-                    .replace("LOCATION_PLACEHOLDER", location_name or "") \
-                    .replace("{","(") \
-                    .replace("}",")")
+        query = str(query).replace(" ", "") \
+            .replace("'", "") \
+            .replace("KEYWORD_PLACEHOLDER", keywords or "") \
+            .replace("LOCATION_PLACEHOLDER", location_name or "") \
+            .replace("{", "(") \
+            .replace("}", ")")
         results = []
         while True:
             # when we're close to the limit, only fetch what we need to
@@ -690,7 +705,8 @@ class Linkedin(object):
         """
         # NOTE this still works for now, but will probably eventually have to be converted to
         # https://www.linkedin.com/voyager/api/identity/profiles/ACoAAAKT9JQBsH7LwKaE9Myay9WcX8OVGuDq9Uw
-        res = self._fetch(f"/identity/profiles/{public_id or urn_id}/profileView")
+        res = self._fetch(
+            f"/identity/profiles/{public_id or urn_id}/profileView")
 
         data = res.json()
         if data and "status" in data and data["status"] != 200:
@@ -714,7 +730,8 @@ class Linkedin(object):
                     )(img)
                     profile[f"img_{w}_{h}"] = url_segment
 
-            profile["profile_id"] = get_id_from_urn(profile["miniProfile"]["entityUrn"])
+            profile["profile_id"] = get_id_from_urn(
+                profile["miniProfile"]["entityUrn"])
             profile["profile_urn"] = profile["miniProfile"]["entityUrn"]
             profile["member_urn"] = profile["miniProfile"]["objectUrn"]
             profile["public_id"] = profile["miniProfile"]["publicIdentifier"]
@@ -1020,7 +1037,8 @@ class Linkedin(object):
         :return: Conversation data
         :rtype: dict
         """
-        res = self._fetch(f"/messaging/conversations/{conversation_urn_id}/events")
+        res = self._fetch(
+            f"/messaging/conversations/{conversation_urn_id}/events")
 
         return res.json()
 
@@ -1040,7 +1058,8 @@ class Linkedin(object):
         params = {"action": "create"}
 
         if not (conversation_urn_id or recipients):
-            self.logger.debug("Must provide [conversation_urn_id] or [recipients].")
+            self.logger.debug(
+                "Must provide [conversation_urn_id] or [recipients].")
             return True
 
         message_event = {
@@ -1277,7 +1296,8 @@ class Linkedin(object):
 
         if not target_profile_member_urn_id:
             profile = self.get_profile(public_id=target_profile_public_id)
-            target_profile_member_urn_id = int(get_id_from_urn(profile["member_urn"]))
+            target_profile_member_urn_id = int(
+                get_id_from_urn(profile["member_urn"]))
 
         if not network_distance:
             profile_network_info = self.get_profile_network_info(
@@ -1477,7 +1497,8 @@ class Linkedin(object):
             # NOTE: we could also check for the `total` returned in the response.
             # This is in data["data"]["paging"]["total"]
             if (
-                (limit > -1 and len(l_urns) >= limit)  # if our results exceed set limit
+                # if our results exceed set limit
+                (limit > -1 and len(l_urns) >= limit)
                 or len(l_urns) / count >= Linkedin._MAX_REPEATED_REQUESTS
             ) or len(l_raw_urns) == 0:
                 break
