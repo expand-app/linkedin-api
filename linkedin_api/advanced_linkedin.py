@@ -141,9 +141,7 @@ class AdvancedLinkedin(Linkedin):
                         self.logger.debug(
                             f"Retrieved user IDs from mini profile: {id_dict}")
 
-                    return encode_api_response(api_name=api_name, status=data['status'], data=id_dict)
-
-                    # return encode_api_response('Successfully retrieved user IDs from mini profile', status=data['status'], data=id_dict)
+                    return encode_api_response(api_name=api_name, status=data['status'], data=id_dict, user_id=public_id or hash_id or temp_hash_id)
                 else:
                     error_dict['mini_profile'] = data
 
@@ -186,8 +184,7 @@ class AdvancedLinkedin(Linkedin):
                         self.logger.debug(
                             f"Retrieved user IDs from profile: {id_dict}")
 
-                    # return encode_api_response('Successfully retrieved user IDs from profile', status=data['status'], data=id_dict)
-                    return encode_api_response(api_name=api_name, status=data['status'], data=id_dict)
+                    return encode_api_response(api_name=api_name, status=data['status'], data=id_dict, user_id=public_id or hash_id or temp_hash_id)
                 else:
                     error_dict['profile'] = data
 
@@ -265,8 +262,7 @@ class AdvancedLinkedin(Linkedin):
                         self.logger.debug(
                             f"Retrieved user IDs from profile HTML: {id_dict}")
 
-                    # return encode_api_response('Successfully retrieved user IDs from HTML', status=data['status'], data=id_dict)
-                    return encode_api_response(api_name=api_name, status=data['status'], data=id_dict)
+                    return encode_api_response(api_name=api_name, status=data['status'], data=id_dict, user_id=public_id or hash_id or temp_hash_id)
                 else:
                     error_dict['profile_html'] = data
 
@@ -283,14 +279,14 @@ class AdvancedLinkedin(Linkedin):
         if raise_exception:
             # Does not add "error_dict" into the log as it's too long
             raise Exception(
-                get_api_response_log(api_name=api_name, status=503))
+                get_api_response_log(api_name=api_name, status=503, user_id=public_id or hash_id or temp_hash_id))
         else:
             if verbose:
                 # Does not add "error_dict" into the log as it's too long
                 self.logger.error(
-                    get_api_response_log(api_name=api_name, status=503))
+                    get_api_response_log(api_name=api_name, status=503, user_id=public_id or hash_id or temp_hash_id))
 
-            return encode_api_response(api_name=api_name, status=503, data=error_dict)
+            return encode_api_response(api_name=api_name, status=503, data=error_dict, user_id=public_id or hash_id or temp_hash_id)
 
     def add_connection_v2(self, public_id=None, hash_id=None, temp_hash_id=None, message="",
                           raise_exception=False, enable_public_id_sending=False, verbose=True):
