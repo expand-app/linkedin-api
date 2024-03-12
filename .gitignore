@@ -24,3 +24,7 @@ venv/
 
 # Cookies
 .linkedin_api
+
+# Output
+output
+/*.json

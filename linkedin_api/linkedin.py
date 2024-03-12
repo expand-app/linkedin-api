@@ -23,8 +23,8 @@ from linkedin_api.utils.helpers import (
     get_update_url,
     parse_list_raw_posts,
     parse_list_raw_urns,
-    generate_trackingId,
-    generate_trackingId_as_charString,
+    generate_tracking_id,
+    generate_tracking_id_as_char_string,
 )
 
 DEFAULT_LINKEDIN_COOKIES_DIR = './.linkedin_api/'
@@ -90,6 +90,9 @@ class Linkedin(object):
         )
         logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
         self.logger = logger
+
+        self.username = username
+        self.password = password
 
         if authenticate:
             if cookies:
@@ -1074,7 +1077,7 @@ class Linkedin(object):
                         "attachments": [],
                     }
                 },
-                "trackingId": generate_trackingId_as_charString(),
+                "trackingId": generate_tracking_id_as_char_string(),
             },
             "dedupeByClientGeneratedToken": False,
         }
@@ -1221,7 +1224,7 @@ class Linkedin(object):
             # We extract the last part of the string
             profile_urn = profile_urn_string.split(":")[-1]
 
-        trackingId = generate_trackingId()
+        trackingId = generate_tracking_id()
         payload = {
             "trackingId": trackingId,
             "message": message,

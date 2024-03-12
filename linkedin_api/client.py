@@ -91,8 +91,8 @@ class Client(object):
     def cookies(self):
         return self.session.cookies
 
-    def authenticate(self, username, password):
-        if self._use_cookie_cache:
+    def authenticate(self, username, password, force_refresh=False):
+        if self._use_cookie_cache and not force_refresh:
             self.logger.debug("Attempting to use cached cookies")
             cookies = self._cookie_repository.get(username)
             if cookies:
