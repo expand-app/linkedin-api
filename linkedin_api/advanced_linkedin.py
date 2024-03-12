@@ -310,12 +310,12 @@ class AdvancedLinkedin(Linkedin):
                 else:
                     if verbose:
                         self.logger.error(
-                            f"Failed to retrieve hash ID before sending the connection request with data {data}")
+                            f"Failed to retrieve hash ID as prerequisite for {api_name} with data {data}")
 
                     if raise_exception:
                         raise Exception(data)
 
-                    return encode_api_response('Failed to retrieve hash ID before sending the connection request', status=424, data=data)
+                    return encode_api_response(f"Failed to retrieve hash ID as prerequisite for {api_name}", status=424, data=data)
 
         tracking_id = generate_tracking_id()
         payload = {
@@ -367,12 +367,12 @@ class AdvancedLinkedin(Linkedin):
             else:
                 if verbose:
                     self.logger.error(
-                        f"Failed to retrieve hash ID before sending the connection request with data {data}")
+                        f"Failed to retrieve hash ID as prerequisite for {api_name} with data {data}")
 
                 if raise_exception:
                     raise Exception(data)
 
-                return encode_api_response('Failed to retrieve hash ID before sending the connection request', status=424, data=data)
+                return encode_api_response(f"Failed to retrieve hash ID as prerequisite for {api_name}", status=424, data=data)
 
         payload = {
             "invitee": {

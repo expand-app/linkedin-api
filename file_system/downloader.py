@@ -25,14 +25,6 @@ def download_file(url, file_path_without_extension, verbose=DEFAULT_VERBOSE):
     if verbose:
         logging.info(f"Guessed the file extension as {extension}")
 
-    # folder_path = '/'.join(file_path_without_extension.split('/')[:-1])
-
-    # # if verbose:
-    # #     logging.info(f"Parsed the folder path {folder_path}")
-
-    # if not os.path.exists(folder_path):
-    #     os.makedirs(folder_path)
-
     get_or_create_folder_path(file_path_without_extension)
 
     file_path = f"{file_path_without_extension}{extension}"
