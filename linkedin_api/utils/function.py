@@ -10,7 +10,7 @@ def retry(enable_retry_keyword='auto_retry',
           validate_retryable_response=None,
           validate_retryable_response_method_name_in_class=None,
           verbose=False,
-          verbose_param_name='verbose'):
+          verbose_param_name='verbose_on_retry'):
 
     def decorator(func):
         @wraps(func)

@@ -46,7 +46,7 @@ class AdvancedLinkedin(Linkedin):
                          decorationIndex='21', raise_exception=False, verbose=True,
                          # Placeholder for enabling retry toggle
                          # To enable retry, you must specify "auto_retry=True" when calling the method
-                         auto_retry=False, retry_limit=1):
+                         auto_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'mini profile API'
         notes = None
 
@@ -85,7 +85,7 @@ class AdvancedLinkedin(Linkedin):
                        raise_exception=False, return_raw_data=False, verbose=True,
                        # Placeholder for enabling retry toggle
                        # To enable retry, you must specify "auto_retry=True" when calling the method
-                       auto_retry=False, retry_limit=1):
+                       auto_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'profile v2 API'
         notes = None
 
@@ -130,7 +130,7 @@ class AdvancedLinkedin(Linkedin):
                          raise_exception=False, verbose=True,
                          # Placeholder for enabling retry toggle
                          # To enable retry, you must specify "auto_retry=True" when calling the method
-                         auto_retry=False, retry_limit=1):
+                         auto_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'profile HTML API'
         notes = None
 
@@ -162,7 +162,7 @@ class AdvancedLinkedin(Linkedin):
                      enable_mini_profile_fetch=True, enable_profile_fetch=True, enable_profile_html_fetch=True,
                      # Placeholder for enabling retry toggle
                      # To enable retry, you must specify "auto_retry=True" when calling the method
-                     auto_retry=False, retry_limit=1) -> APIResponse:
+                     auto_retry=False, retry_limit=1, verbose_on_retry=False) -> APIResponse:
         api_name = 'user IDs retrieval API'
         error_dict = {
             'mini_profile': None,
@@ -359,7 +359,7 @@ class AdvancedLinkedin(Linkedin):
                           raise_exception=False, enable_public_id_sending=False, verbose=True,
                           # Placeholder for enabling retry toggle
                           # To enable retry, you must specify "auto_retry=True" when calling the method
-                          auto_retry=False, retry_limit=1):
+                          auto_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'connection request v2 API'
         notes = None
 
@@ -429,7 +429,7 @@ class AdvancedLinkedin(Linkedin):
                           raise_exception=False, verbose=True,
                           # Placeholder for enabling retry toggle
                           # To enable retry, you must specify "auto_retry=True" when calling the method
-                          auto_retry=False, retry_limit=1):
+                          auto_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'connection request v3 API'
         notes = None
 
