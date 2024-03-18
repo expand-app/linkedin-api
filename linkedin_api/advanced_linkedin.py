@@ -29,9 +29,11 @@ class AdvancedLinkedin(Linkedin):
         if not self.username:
             raise Exception(f"Unknow username {self.username}")
 
+        # Load cookies from the local file
         cookies = self.client._cookie_repository._load_cookies_from_cache(
             self.username)
-        self.logger.info(cookies)
+
+        # Save cookies into the local file
         self.client._cookie_repository.save(
             cookies=cookies, username=self.username, raw_time_suffix=datetime.now())
 
