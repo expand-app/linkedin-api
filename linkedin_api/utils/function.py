@@ -3,7 +3,7 @@ import logging
 from functools import wraps
 
 
-def retry(enable_retry_keyword='auto_retry',
+def retry(enable_retry_keyword='enable_retry',
           retry_limit_keyword='retry_limit',
           on_retry_prepare_method_name_in_class=None,
           on_retry_prepare=None,

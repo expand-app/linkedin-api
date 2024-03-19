@@ -45,8 +45,8 @@ class AdvancedLinkedin(Linkedin):
     def get_mini_profile(self, public_id=None, hash_id=None, temp_hash_id=None,
                          decorationIndex='21', raise_exception=False, verbose=True,
                          # Placeholder for enabling retry toggle
-                         # To enable retry, you must specify "auto_retry=True" when calling the method
-                         auto_retry=False, retry_limit=1, verbose_on_retry=False):
+                         # To enable retry, you must specify "enable_retry=True" when calling the method
+                         enable_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'mini profile API'
         notes = None
 
@@ -79,13 +79,13 @@ class AdvancedLinkedin(Linkedin):
     @retry(
         on_retry_prepare_method_name_in_class='authenticate',
         validate_retryable_response=validate_retryable_response_factory([
-                                                                        401, 403]),
+                                                                        401, 403, 999]),
     )
     def get_profile_v2(self, public_id=None, hash_id=None, temp_hash_id=None,
                        raise_exception=False, return_raw_data=False, verbose=True,
                        # Placeholder for enabling retry toggle
-                       # To enable retry, you must specify "auto_retry=True" when calling the method
-                       auto_retry=False, retry_limit=1, verbose_on_retry=False):
+                       # To enable retry, you must specify "enable_retry=True" when calling the method
+                       enable_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'profile v2 API'
         notes = None
 
@@ -129,8 +129,8 @@ class AdvancedLinkedin(Linkedin):
     def get_profile_html(self, public_id=None, hash_id=None, temp_hash_id=None,
                          raise_exception=False, verbose=True,
                          # Placeholder for enabling retry toggle
-                         # To enable retry, you must specify "auto_retry=True" when calling the method
-                         auto_retry=False, retry_limit=1, verbose_on_retry=False):
+                         # To enable retry, you must specify "enable_retry=True" when calling the method
+                         enable_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'profile HTML API'
         notes = None
 
@@ -161,8 +161,8 @@ class AdvancedLinkedin(Linkedin):
                      raise_exception=False, verbose=True,
                      enable_mini_profile_fetch=True, enable_profile_fetch=True, enable_profile_html_fetch=True,
                      # Placeholder for enabling retry toggle
-                     # To enable retry, you must specify "auto_retry=True" when calling the method
-                     auto_retry=False, retry_limit=1, verbose_on_retry=False) -> APIResponse:
+                     # To enable retry, you must specify "enable_retry=True" when calling the method
+                     enable_retry=False, retry_limit=1, verbose_on_retry=False) -> APIResponse:
         api_name = 'user IDs retrieval API'
         error_dict = {
             'mini_profile': None,
@@ -358,8 +358,8 @@ class AdvancedLinkedin(Linkedin):
     def add_connection_v2(self, public_id=None, hash_id=None, temp_hash_id=None, message="",
                           raise_exception=False, enable_public_id_sending=False, verbose=True,
                           # Placeholder for enabling retry toggle
-                          # To enable retry, you must specify "auto_retry=True" when calling the method
-                          auto_retry=False, retry_limit=1, verbose_on_retry=False):
+                          # To enable retry, you must specify "enable_retry=True" when calling the method
+                          enable_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'connection request v2 API'
         notes = None
 
@@ -428,8 +428,8 @@ class AdvancedLinkedin(Linkedin):
                           timezone=None, display_width=None, display_height=None,
                           raise_exception=False, verbose=True,
                           # Placeholder for enabling retry toggle
-                          # To enable retry, you must specify "auto_retry=True" when calling the method
-                          auto_retry=False, retry_limit=1, verbose_on_retry=False):
+                          # To enable retry, you must specify "enable_retry=True" when calling the method
+                          enable_retry=False, retry_limit=1, verbose_on_retry=False):
         api_name = 'connection request v3 API'
         notes = None
 
