@@ -353,7 +353,8 @@ class AdvancedLinkedin(Linkedin):
 
     @retry(
         on_retry_prepare_method_name_in_class='authenticate',
-        validate_retryable_response=validate_retryable_response_factory([401]),
+        validate_retryable_response=validate_retryable_response_factory([
+                                                                        401, 424]),
     )
     def add_connection_v2(self, public_id=None, hash_id=None, temp_hash_id=None, message="",
                           raise_exception=False, enable_public_id_sending=False, verbose=True,
@@ -422,7 +423,8 @@ class AdvancedLinkedin(Linkedin):
 
     @retry(
         on_retry_prepare_method_name_in_class='authenticate',
-        validate_retryable_response=validate_retryable_response_factory([401]),
+        validate_retryable_response=validate_retryable_response_factory([
+                                                                        401, 424]),
     )
     def add_connection_v3(self, public_id=None, hash_id=None, temp_hash_id=None, message="",
                           timezone=None, display_width=None, display_height=None,
