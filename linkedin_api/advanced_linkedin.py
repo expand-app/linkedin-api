@@ -50,12 +50,16 @@ class AdvancedLinkedin(Linkedin):
         api_name = 'mini profile API'
         notes = None
 
-        res = self._fetch(
-            f"/identity/dash/profiles?q=memberIdentity&memberIdentity={public_id or hash_id or temp_hash_id}"
-            # "decorationIndex" can range from 1 to 22, as of 2024/03/08
-            # One example: https://stackoverflow.com/questions/72755463/request-data-from-linkedin
-            f"&decorationId=com.linkedin.voyager.dash.deco.identity.profile.WebTopCardCore-{decorationIndex}"
-        )
+        try:
+            res = self._fetch(
+                f"/identity/dash/profiles?q=memberIdentity&memberIdentity={public_id or hash_id or temp_hash_id}"
+                # "decorationIndex" can range from 1 to 22, as of 2024/03/08
+                # One example: https://stackoverflow.com/questions/72755463/request-data-from-linkedin
+                f"&decorationId=com.linkedin.voyager.dash.deco.identity.profile.WebTopCardCore-{decorationIndex}"
+            )
+        except Exception as e:
+            return {"ok": False, "message": "Cannot connect to proxy", "status": 407, "data": {"status": 407}}
+
 
         if verbose:
             self.logger.debug(get_api_response_log(
@@ -89,8 +93,11 @@ class AdvancedLinkedin(Linkedin):
         api_name = 'profile v2 API'
         notes = None
 
-        res = self._fetch(
-            f"/identity/profiles/{public_id or hash_id or temp_hash_id}/profileView")
+        try:
+            res = self._fetch(
+                f"/identity/profiles/{public_id or hash_id or temp_hash_id}/profileView")
+        except Exception as e:
+            return {"ok": False, "message": "Cannot connect to proxy", "status": 407, "data": {"status": 407}}
 
         if verbose:
             self.logger.debug(get_api_response_log(
