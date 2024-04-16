@@ -215,9 +215,16 @@ class AdvancedLinkedin(Linkedin):
 
                 if not error_dict['mini_profile']:
                     error_dict['mini_profile'] = {
-                        'data': {"code": None},
-                        'status': 407 if "proxy" in str(e) else 503
+                        'message': str(e),
+                        'status': 407 if "proxy" in str(e) else 503,
+                        'ok': False,
+                        "data": {
+                            "status": 407 if "proxy" in str(e) else 503,
+                        },
+                        "notes": "Change proxy config"
                     }
+                    encode_api_response(api_name=api_name, status=503, data=error_dict,
+                                        user_id=public_id or hash_id or temp_hash_id)
 
         if enable_profile_fetch:
             # Second attempt to retrieve user IDs from the profile
@@ -262,9 +269,17 @@ class AdvancedLinkedin(Linkedin):
 
                 if not error_dict['profile']:
                     error_dict['profile'] = {
-                        'data': {"code": None},
-                        'status': 407 if "proxy" in str(e) else 503
+                        'message': str(e),
+                        'status': 407 if "proxy" in str(e) else 503,
+                        'ok': False,
+                        "data": {
+                            "status": 407 if "proxy" in str(e) else 503,
+                        },
+                        "notes": "Change proxy config"
                     }
+                    encode_api_response(api_name=api_name, status=503, data=error_dict,
+                                        user_id=public_id or hash_id or temp_hash_id)
+
 
 
         if enable_profile_html_fetch:
