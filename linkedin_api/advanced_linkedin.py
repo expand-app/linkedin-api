@@ -366,7 +366,17 @@ class AdvancedLinkedin(Linkedin):
                     self.logger.error(e)
 
                 if not error_dict['profile_html']:
-                    error_dict['profile_html'] = str(e)
+                    error_dict['profile_html'] = {
+                        'message': str(e),
+                        'status': 407 if "proxy" in str(e) else 503,
+                        'ok': False,
+                        "data": {
+                            "status": 407 if "proxy" in str(e) else 503,
+                        },
+                        "notes": "Change proxy config"
+                    }
+                encode_api_response(api_name=api_name, status=503, data=error_dict,
+                                    user_id=public_id or hash_id or temp_hash_id)
 
         if raise_exception:
             # Does not add "error_dict" into the log as it's too long
