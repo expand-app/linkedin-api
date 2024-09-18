@@ -2,7 +2,7 @@ name: Notify on New PR
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, reopened]
 
 jobs:
   notify:
@@ -11,11 +11,11 @@ jobs:
     steps:
       - name: Send Notification
         run: |
-          curl -X POST https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=803a3e0c-019e-4e4b-889b-dbc944803b77 \
+          curl -X POST https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3f8ffb13-152b-466c-b6b2-db7f0e3c6680 \
           -H "Content-Type: application/json" \
           -d '{
                 "msgtype": "text",
                 "text": {
-                    "content": "PR已创建：\n\n链接：${{ github.event.pull_request.html_url }}\n\n作者：${{ github.event.pull_request.user.login }}\n\n标题：${{ github.event.pull_request.title }}\n\n描述：${{ github.event.pull_request.body }}"
+                    "content": "【PR已创建】\n\n链接：${{ github.event.pull_request.html_url }}\n\n作者：${{ github.event.pull_request.user.login }}\n\n标题：${{ github.event.pull_request.title }}"
                 }
               }'
