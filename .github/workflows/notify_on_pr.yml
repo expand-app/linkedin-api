@@ -16,6 +16,6 @@ jobs:
           -d '{
                 "msgtype": "text",
                 "text": {
-                    "content": "A new PR has been opened:\nTitle: ${{ github.event.pull_request.title }}\nURL: ${{ github.event.pull_request.html_url }}"
+                    "content": "PR已创建：\n\n链接：${{ github.event.pull_request.html_url }}\n\n作者：${{ github.event.pull_request.user.login }}\n\n标题：${{ github.event.pull_request.title }}\n\n描述：${{ github.event.pull_request.body }}"
                 }
               }'
